@@ -20,23 +20,22 @@ public class Battleship
 		for (int i = 0; i < 4; i++)
 			nums[i] = i + 1;
 	}
-	public void printPersonal()
-	{
-		printMap(personalMap);
-	}
 
-	private void printMap(char[][] map)
+	public void printMaps()
 	{
-		System.out.println("|  |A|B|C|D|E|F|G|H|I|J|");
-		String tmp;
+		System.out.println("Your layout \t\t\tEnemy");
+		System.out.println("|  |A|B|C|D|E|F|G|H|I|J|\t|  |A|B|C|D|E|F|G|H|I|J|");
+		String tmpe, tmpp;
 		for (int i = 0; i < 10; i++)
 		{
-			tmp = "|" + String.format("%02d",(i + 1)) + "|";
+			tmpp = "|" + String.format("%02d",(i + 1)) + "|";
+			tmpe = tmpp;
 			for (int j = 0; j < 10; j++)
 			{
-				tmp += map[i][j] + "|";
+				tmpp += personalMap[i][j] + "|";
+				tmpe += enemyMap[i][j] + "|";
 			}
-			System.out.println(tmp);
+			System.out.println(tmpp + '\t' + tmpe);
 		}
 	}
 
@@ -53,23 +52,66 @@ public class Battleship
 		input = input.substring(input.indexOf(',') + 1);
 		dir = input.charAt(0);
 		input = input.substring(input.indexOf(',') + 1);
-		r = Integer.parseInt(input.substring(0,input.indexOf(','))) - 1;
-		input = input.substring(input.indexOf(',') + 1);
-		c = input.charAt(0) - 'a';
+		int[] rc = parseCoordinate(input);
 
 		if (nums[type - 1] > 0)
-		{
 			for (int i = 0; i < type; i++)
-			{
 				if (dir == 'h')
-				{
-					personalMap[r][c + i] = '#';
-				}
+					personalMap[rc[0]][rc[1] + i] = '#';
 				else
+					personalMap[rc[0] + i][rc[1]] = '#';
+	}
+
+	/*
+		Incoming missile from enemy at the coordinate
+		format "row,col"
+	*/
+	public boolean incoming(String coordinate)
+	{
+		return hit(coordinate,personalMap);
+	}
+
+	public boolean outgoing(String coordinate)
+	{
+		return hit(coordinate,enemyMap);
+	}
+
+	public boolean hit(String coordinate, char[][] map)
+	{
+		int[] rc = parseCoordinate(coordinate);
+		boolean ret = false;
+		if (map[rc[0]][rc[1]] == '#')
+		{
+			ret = true;
+		}
+
+		map[rc[0]][rc[1]] = 'x';
+		return ret;
+	}
+
+	public boolean checkMap(char[][] map)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			for (int j = 0; j < 10; j++)
+			{
+				if (map[i][j] == '#')
 				{
-					personalMap[r + i][c] = '#';
+					return false;
 				}
 			}
 		}
+
+		return true;
+	}
+
+	private int[] parseCoordinate(String coordinate)
+	{
+		int[] rc = new int[2];
+		rc[0] = Integer.parseInt(coordinate.substring(0, coordinate.indexOf(','))) - 1;
+		coordinate = coordinate.substring(coordinate.indexOf(',') + 1);
+		rc[1] = coordinate.charAt(0);
+
+		return rc;
 	}
 }

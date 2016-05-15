@@ -9,7 +9,7 @@ public class Main
 		Battleship game = new Battleship();
 		for (String line : ships)
 			game.placeShip(line);
-		game.printPersonal();
+		game.printMaps();
 	}
 
 	public static ArrayList<String> readFromFile(String fileName)
@@ -27,7 +27,6 @@ public class Main
 			while (line != null)
 			{
 				ret.add(line);
-				System.out.println(line);
 				line = in.readLine();
 			}
 		}
