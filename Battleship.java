@@ -1,11 +1,12 @@
 import java.io.*;
+import java.util.*;
 
 public class Battleship
 {
 	private char[][] personalMap = new char[10][10];
 	private char[][] enemyMap = new char[10][10];
 
-	private int four = 1, three = 2, two = 3, one = 4;
+	private int[] nums = new int[4];
 
 	public Battleship()
 	{
@@ -15,6 +16,9 @@ public class Battleship
 				personalMap[i][j] = '-';
 				enemyMap[i][j] = '-';
 			}
+
+		for (int i = 0; i < 4; i++)
+			nums[i] = i + 1;
 	}
 	public void printPersonal()
 	{
@@ -36,28 +40,35 @@ public class Battleship
 		}
 	}
 
+	/*
+		recieves input in format "type,dir,row,col"
+		eg "2,h,1,a" will place a ship of length 2
+			horizontally at coordinate 1a
+	*/
 	public void placeShip(String input)
 	{
-		int r, c;
-		if (input.length() == 4)
-		{
-			r = input.charAt(2) - '0' - 1;
-			c = input.charAt(3) - 'a';
-			System.out.println(r + " " + c);
-			switch (input.charAt(0))
-			{
-				case '1':
-					if (one > 0)
-					{
+		int r, c, type;
+		char dir;
+		type = input.charAt(0) - '0';
+		input = input.substring(input.indexOf(',') + 1);
+		dir = input.charAt(0);
+		input = input.substring(input.indexOf(',') + 1);
+		r = Integer.parseInt(input.substring(0,input.indexOf(','))) - 1;
+		input = input.substring(input.indexOf(',') + 1);
+		c = input.charAt(0) - 'a';
 
-					}
-					break;
-				case '2':
-					break;
-				case '3':
-					break;
-				case '4':
-					break;
+		if (nums[type - 1] > 0)
+		{
+			for (int i = 0; i < type; i++)
+			{
+				if (dir == 'h')
+				{
+					personalMap[r][c + i] = '#';
+				}
+				else
+				{
+					personalMap[r + i][c] = '#';
+				}
 			}
 		}
 	}
