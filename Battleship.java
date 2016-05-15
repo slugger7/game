@@ -46,14 +46,15 @@ public class Battleship
 	*/
 	public void placeShip(String input)
 	{
-		int r, c, type;
 		char dir;
+		int type;
 		type = input.charAt(0) - '0';
 		input = input.substring(input.indexOf(',') + 1);
 		dir = input.charAt(0);
 		input = input.substring(input.indexOf(',') + 1);
 		int[] rc = parseCoordinate(input);
 
+		System.out.println("Row:" + rc[0] + " Col: " + rc[1]);
 		if (nums[type - 1] > 0)
 			for (int i = 0; i < type; i++)
 				if (dir == 'h')
@@ -110,7 +111,7 @@ public class Battleship
 		int[] rc = new int[2];
 		rc[0] = Integer.parseInt(coordinate.substring(0, coordinate.indexOf(','))) - 1;
 		coordinate = coordinate.substring(coordinate.indexOf(',') + 1);
-		rc[1] = coordinate.charAt(0);
+		rc[1] = coordinate.charAt(0) - 'a';
 
 		return rc;
 	}
