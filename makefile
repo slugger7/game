@@ -1,8 +1,8 @@
 default:
-	javac Main.java Battleship.java
+	javac Battleship.java Mail.java HttpServer.java
 
 run:
-	java Main
+	java HttpServer
 
 clean:
 	rm *.class

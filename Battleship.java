@@ -21,22 +21,36 @@ public class Battleship
 			nums[i] = i + 1;
 	}
 
-	public void printMaps()
+	public String printMaps()
 	{
-		System.out.println("Your layout \t\t\tEnemy");
-		System.out.println("|  |A|B|C|D|E|F|G|H|I|J|\t|  |A|B|C|D|E|F|G|H|I|J|");
-		String tmpe, tmpp;
+		String ret = "<h3>Your layout</h3>";
+		ret += "<table border='1'><tr><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>";
+		ret += "<th>F</th><th>G</th><th>H</th><th>I</th><th>J</th></tr>";
 		for (int i = 0; i < 10; i++)
 		{
-			tmpp = "|" + String.format("%02d",(i + 1)) + "|";
-			tmpe = tmpp;
+			ret += "<tr>";
 			for (int j = 0; j < 10; j++)
 			{
-				tmpp += personalMap[i][j] + "|";
-				tmpe += enemyMap[i][j] + "|";
+				ret += "<td>"+personalMap[i][j]+"</td>";
 			}
-			System.out.println(tmpp + '\t' + tmpe);
+			ret += "</tr>";
 		}
+		ret += "</table>";
+		
+		ret += "<h3>Enemy layout</h3>";
+		ret += "<table border='1'><tr><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>";
+		ret += "<th>F</th><th>G</th><th>H</th><th>I</th><th>J</th></tr>";
+		for (int i = 0; i < 10; i++)
+		{
+			ret += "<tr>";
+			for (int j = 0; j < 10; j++)
+			{
+				ret += "<td>"+enemyMap[i][j]+"</td>";
+			}
+			ret += "</tr>";
+		}
+		ret += "</table>";
+		return ret;
 	}
 
 	/*
