@@ -3,8 +3,8 @@ import java.util.*;
 
 public class Battleship
 {
-	private char[][] personalMap = new char[10][10];
-	private char[][] enemyMap = new char[10][10];
+	public char[][] personalMap = new char[10][10];
+	public char[][] enemyMap = new char[10][10];
 
 	private int[] nums = new int[4];
 
@@ -137,13 +137,14 @@ public class Battleship
 	{
 		int[] rc = htmlCoordinate(coordinate);
 		boolean ret = false;
-		if (map[rc[0]][rc[1]] == '#')
+		if (map[rc[0]][rc[1]] == '#' || map[rc[0]][rc[1]] == '*')
 		{
-			ret = true;
+			map[rc[0]][rc[1]] = '*';
+			return true;
 		}
 
 		map[rc[0]][rc[1]] = 'x';
-		return ret;
+		return false;
 	}
 	
 	
