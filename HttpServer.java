@@ -1,5 +1,5 @@
 
-//Charl Jansen van Vuuren 13054903
+//QuintonWeenink u13176545
 
 import java.net.*;
 import java.io.*;
@@ -10,7 +10,8 @@ public class HttpServer {
 	public int Answ;
 	public int ins_Score;
 	public int ins_total;
-	public static Battleship battle = new Battleship();
+	public static Battleship player1 = new Battleship();
+	public static Battleship player2 = new Battleship();
 	public boolean turn;
 
 	HttpServer() {
@@ -61,8 +62,9 @@ public class HttpServer {
 						answ = answ.substring(0, answ.indexOf(' '));
 						System.out.println(answ);
 
-						battle.outgoing(answ);
-
+						player1.outgoing(answ);
+						player2.incoming(answ);
+;
 						set = true;
 					}
 					if (a.contains("e=")) {
@@ -87,8 +89,8 @@ public class HttpServer {
 				out.write("Expires: Sat, 01 Jan 2000 00:59:59 GMT\r\n");
 				out.write("Last-modified: Fri, 09 Aug 1996 14:21:40 GMT\r\n");
 				out.write("\r\n");
-				out.write("<TITLE>Question Server</TITLE>");
-				out.write("<h1>Question Server</h1>");
+				out.write("<TITLE>Battleship</TITLE>");
+				out.write("<h1>Battleship</h1>");
 				out.write("<P>");
 				out.write("<fieldset>");
 
@@ -130,7 +132,8 @@ public class HttpServer {
 						answ = answ.substring(0, answ.indexOf(' '));
 						System.out.println(answ);
 
-						battle.incoming(answ);
+						player2.outgoing(answ);
+						player1.incoming(answ);
 
 						set = true;
 					}
@@ -156,8 +159,8 @@ public class HttpServer {
 				out2.write("Expires: Sat, 01 Jan 2000 00:59:59 GMT\r\n");
 				out2.write("Last-modified: Fri, 09 Aug 1996 14:21:40 GMT\r\n");
 				out2.write("\r\n");
-				out2.write("<TITLE>Question Server</TITLE>");
-				out2.write("<h1>Question Server</h1>");
+				out2.write("<TITLE>Battleship</TITLE>");
+				out2.write("<h1>Battleshipr</h1>");
 				out2.write("<P>");
 				out2.write("<fieldset>");
 
