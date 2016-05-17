@@ -32,9 +32,9 @@ public class HttpServer {
 
 		public HttpServer instance;
 
-		private Threader(Socket accept, Socket accept2, HttpServer i) throws FileNotFoundException {
+		private Threader(Socket accept, HttpServer i) throws FileNotFoundException {
 			this.socket = accept;
-			this.socket2 = accept2;
+			this.socket2 = accept;
 			instance = i;
 		}
 
@@ -204,12 +204,10 @@ public class HttpServer {
 	public static void main(String[] args) throws Exception {
 		System.out.println("Starting server on port 55555");
 		ServerSocket server = new ServerSocket(55555);
-		System.out.println("Starting server on port 44444");
-		ServerSocket server2 = new ServerSocket(44444);
 		HttpServer i = new HttpServer();
 		try {
 			while (true) {
-				new Threader(server.accept(), server2.accept(), i).start();
+				new Threader(server.accept(), i).start();
 			}
 		} finally {
 			server.close();
