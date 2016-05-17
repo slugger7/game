@@ -50,7 +50,7 @@ public class Battleship
 	public String printMaps()
 	{
 		String ret = "<h3>Your layout</h3>";
-		ret += "<table border='1'><tr><th/><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>";
+		ret += "<table border='1'><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>";
 		ret += "<th>F</th><th>G</th><th>H</th><th>I</th><th>J</th></tr>";
 		for (int i = 0; i < 10; i++)
 		{
@@ -64,7 +64,7 @@ public class Battleship
 		ret += "</table>";
 		
 		ret += "<h3>Enemy layout</h3>";
-		ret += "<table border='1'><tr><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>";
+		ret += "<table border='1'><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>";
 		ret += "<th>F</th><th>G</th><th>H</th><th>I</th><th>J</th></tr>";
 		for (int i = 0; i < 10; i++)
 		{
@@ -100,12 +100,12 @@ public class Battleship
 				if (dir == 'h')
 				{
 					personalMap[rc[0]][rc[1] + i] = '#';
-					enemyMap[rc[0]][rc[1] + i] = '#';
+					//enemyMap[rc[0]][rc[1] + i] = '#';
 				}
 				else
 				{
 					personalMap[rc[0] + i][rc[1]] = '#';
-					enemyMap[rc[0] + i][rc[1]] = '#';
+					//enemyMap[rc[0] + i][rc[1]] = '#';
 				}
 	}
 
@@ -120,7 +120,7 @@ public class Battleship
 
 	public boolean outgoing(String coordinate, boolean h)
 	{
-		int[] rc = parseCoordinate(coordinate);
+		int[] rc = htmlCoordinate(coordinate);
 		if (h)
 		{
 			enemyMap[rc[0]][rc[1]] = '*';
@@ -135,7 +135,7 @@ public class Battleship
 
 	public boolean hit(String coordinate, char[][] map)
 	{
-		int[] rc = parseCoordinate(coordinate);
+		int[] rc = htmlCoordinate(coordinate);
 		boolean ret = false;
 		if (map[rc[0]][rc[1]] == '#')
 		{
@@ -169,6 +169,16 @@ public class Battleship
 		int[] rc = new int[2];
 		rc[0] = Integer.parseInt(coordinate.substring(0, coordinate.indexOf(','))) - 1;
 		coordinate = coordinate.substring(coordinate.indexOf(',') + 1);
+		rc[1] = coordinate.charAt(0) - 'a';
+
+		return rc;
+	}
+	
+	private int[] htmlCoordinate(String coordinate)
+	{
+		int[] rc = new int[2];
+		rc[0] = Integer.parseInt(coordinate.substring(0, coordinate.indexOf('%'))) - 1;
+		coordinate = coordinate.substring(coordinate.indexOf('%') + 3);
 		rc[1] = coordinate.charAt(0) - 'a';
 
 		return rc;

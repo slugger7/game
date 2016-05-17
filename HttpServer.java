@@ -40,6 +40,7 @@ public class HttpServer {
 		}
 
 		public void run() {
+			boolean boom = false;
 			try {
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -62,8 +63,9 @@ public class HttpServer {
 						answ = answ.substring(0, answ.indexOf(' '));
 						System.out.println(answ);
 
-						player1.outgoing(answ);
-						player2.incoming(answ);
+						boom = player2.incoming(answ);
+						player1.outgoing(answ, boom);
+						
 ;
 						set = true;
 					}
@@ -94,7 +96,7 @@ public class HttpServer {
 				out.write("<P>");
 				out.write("<fieldset>");
 
-				if (hit) {
+				if(boom) {
 					out.write("<h4><font color=\"green\">HIT </font></h4>");
 					instance.ins_Score++;
 
@@ -103,7 +105,7 @@ public class HttpServer {
 					out.write("<h4><font color=\"red\">MISS </font></h4>");
 				}
 
-				out.write(battle.printMaps());
+				out.write(player1.printMaps());
 				//out.write("<h1>PLEASE WAIT FOR THE OTHER PLAYER TO COMPLETE HIS TURN</h1>");
 
 				out.write("<form method=\"get\" action=\"\" >" + " Answer:<input  name=\"n\" >"
@@ -132,8 +134,8 @@ public class HttpServer {
 						answ = answ.substring(0, answ.indexOf(' '));
 						System.out.println(answ);
 
-						player2.outgoing(answ);
-						player1.incoming(answ);
+						boom = player1.incoming(answ);
+						player2.outgoing(answ, boom);
 
 						set = true;
 					}
@@ -164,7 +166,7 @@ public class HttpServer {
 				out2.write("<P>");
 				out2.write("<fieldset>");
 
-				if (hit) {
+				if (boom) {
 					out2.write("<h4><font color=\"green\">HIT </font></h4>");
 					instance.ins_Score++;
 
@@ -173,7 +175,7 @@ public class HttpServer {
 					out2.write("<h4><font color=\"red\">MISS </font></h4>");
 				}
 
-				out2.write(battle.printMaps());
+				out2.write(player2.printMaps());
 				out2.write("<h1>PLEASE WAIT FOR THE OTHER PLAYER TO COMPLETE HIS TURN</h1>");
 
 				out2.write("<form method=\"get\" action=\"\" >" + " Answer:<input  name=\"n\" >"
