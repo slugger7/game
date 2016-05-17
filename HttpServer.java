@@ -10,11 +10,13 @@ public class HttpServer {
 	public int Answ;
 	public int ins_Score;
 	public int ins_total;
-	public static Battleship player1 = new Battleship();
-	public static Battleship player2 = new Battleship();
+	public static Battleship player1;
+	public static Battleship player2;
 	public boolean turn;
 
-	HttpServer() {
+	HttpServer(Battleship p1, Battleship p2) {
+		player1 = p1;
+		player2 = p2;
 		Answ = 0;
 		ins_Score = 0;
 		ins_total = 0;
@@ -26,16 +28,11 @@ public class HttpServer {
 		private BufferedReader in; // get input from the clients
 		private BufferedWriter out; // output to clients
 
-		private Socket socket2; // create socket for each connected
-		private BufferedReader in2; // get input from the clients
-		private BufferedWriter out2; // output to clients
-		public int Score;
 
 		public HttpServer instance;
 
 		private Threader(Socket accept, HttpServer i) throws FileNotFoundException {
 			this.socket = accept;
-			this.socket2 = accept;
 			instance = i;
 		}
 
@@ -44,9 +41,7 @@ public class HttpServer {
 			try {
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-				BufferedReader in2 = new BufferedReader(new InputStreamReader(socket2.getInputStream()));
-				BufferedWriter out2 = new BufferedWriter(new OutputStreamWriter(socket2.getOutputStream()));
-
+			
 				// Get response from server before sending HTML
 				String a;
 				String answ;
@@ -118,76 +113,7 @@ public class HttpServer {
 
 				out.flush();
 				
-				// Get response from server before sending HTML
-				a = "";
-				answ = "";
-				x = 0;
-				set = false;
-				hit = false;
-
-				System.out.println("**********Start of Request*************");
-				while ((a = in2.readLine()) != null) {
-					System.out.println(a);
-					if (a.contains("n=") && !set) {
-						// get answer from http request;
-						answ = a.substring(a.indexOf('n') + 2);
-						answ = answ.substring(0, answ.indexOf(' '));
-						System.out.println(answ);
-
-						boom = player1.incoming(answ);
-						player2.outgoing(answ, boom);
-
-						set = true;
-					}
-					if (a.contains("e=")) {
-						String adress = a.substring(a.indexOf("=") + 1, a.indexOf("HTTP"));
-						String rep = adress.replace("%40", "@");
-						String scorestr = instance.ins_Score + " out of " + instance.ins_total;
-						email(rep, scorestr);
-
-					}
-					if (a.isEmpty()) {
-						break;
-					}
-				}
-
-				// Sending output to server
-
-				out2.write("HTTP/1.0 200 OK\r\n");
-				out2.write("Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
-				out2.write("Server: Apache/0.8.4\r\n");
-				out2.write("Content-Type: text/html\r\n");
-				out2.write("Content-Length: 59\r\n");
-				out2.write("Expires: Sat, 01 Jan 2000 00:59:59 GMT\r\n");
-				out2.write("Last-modified: Fri, 09 Aug 1996 14:21:40 GMT\r\n");
-				out2.write("\r\n");
-				out2.write("<TITLE>Battleship</TITLE>");
-				out2.write("<h1>Battleshipr</h1>");
-				out2.write("<P>");
-				out2.write("<fieldset>");
-
-				if (boom) {
-					out2.write("<h4><font color=\"green\">HIT </font></h4>");
-					instance.ins_Score++;
-
-				} else// need to fix this
-				{
-					out2.write("<h4><font color=\"red\">MISS </font></h4>");
-				}
-
-				out2.write(player2.printMaps());
-				out2.write("<h1>PLEASE WAIT FOR THE OTHER PLAYER TO COMPLETE HIS TURN</h1>");
-
-				out2.write("<form method=\"get\" action=\"\" >" + " Answer:<input  name=\"n\" >"
-						+ "<input type=\"submit\" value=\"Send Answer\">" + "</form>");
-				out2.write("</fieldset>");
-				out2.write("<b>Score:</b> " + instance.ins_Score + " out of " + instance.ins_total);
-				out2.write("</P>");
-				out2.write("<form method=\"get\" action=\"\" >" + " Answer:<input type=\"email\"  name=\"e\" >"
-						+ "<input type=\"submit\" value=\"Email results\">" + "</form>");
-
-				out2.flush();
-
+				
 			} catch (IOException e) {
 				System.err.println("Threading error");
 			} finally {
@@ -209,10 +135,14 @@ public class HttpServer {
 	public static void main(String[] args) throws Exception {
 		System.out.println("Starting server on port 55555");
 		ServerSocket server = new ServerSocket(55555);
-		HttpServer i = new HttpServer();
+		Battleship player1 = new Battleship();
+		Battleship player2 = new Battleship();
+		HttpServer host1 = new HttpServer(player1, player2);
+		HttpServer host2 = new HttpServer(player1, player2);
 		try {
 			while (true) {
-				new Threader(server.accept(), i).start();
+				new Threader(server.accept(), host1).start();
+				new Threader(server.accept(), host2).start();
 			}
 		} finally {
 			server.close();
