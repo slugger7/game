@@ -50,11 +50,11 @@ public class Battleship
 	public String printMaps()
 	{
 		String ret = "<h3>Your layout</h3>";
-		ret += "<table border='1'><tr><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>";
+		ret += "<table border='1'><tr><th/><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>";
 		ret += "<th>F</th><th>G</th><th>H</th><th>I</th><th>J</th></tr>";
 		for (int i = 0; i < 10; i++)
 		{
-			ret += "<tr>";
+			ret += "<tr><td>" + i + "</td>";
 			for (int j = 0; j < 10; j++)
 			{
 				ret += "<td>"+personalMap[i][j]+"</td>";
@@ -68,7 +68,7 @@ public class Battleship
 		ret += "<th>F</th><th>G</th><th>H</th><th>I</th><th>J</th></tr>";
 		for (int i = 0; i < 10; i++)
 		{
-			ret += "<tr>";
+			ret += "<tr><td>" + i + "</td>";
 			for (int j = 0; j < 10; j++)
 			{
 				ret += "<td>"+enemyMap[i][j]+"</td>";
@@ -118,9 +118,19 @@ public class Battleship
 		return hit(coordinate,personalMap);
 	}
 
-	public boolean outgoing(String coordinate)
+	public boolean outgoing(String coordinate, boolean h)
 	{
-		return hit(coordinate,enemyMap);
+		int[] rc = parseCoordinate(coordinate);
+		if (h)
+		{
+			enemyMap[rc[0]][rc[1]] = '*';
+			return true;
+		}
+		else
+		{
+			enemyMap[rc[0]][rc[1]] = 'x';
+			return false;
+		}
 	}
 
 	public boolean hit(String coordinate, char[][] map)
