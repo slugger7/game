@@ -102,7 +102,7 @@ public class HttpServer {
 				}
 
 				out.write(battle.printMaps());
-				out.write("<h1>PLEASE WAIT FOR THE OTHER PLAYER TO COMPLETE HIS TURN</h1>");
+				//out.write("<h1>PLEASE WAIT FOR THE OTHER PLAYER TO COMPLETE HIS TURN</h1>");
 
 				out.write("<form method=\"get\" action=\"\" >" + " Answer:<input  name=\"n\" >"
 						+ "<input type=\"submit\" value=\"Send Answer\">" + "</form>");

@@ -19,6 +19,32 @@ public class Battleship
 
 		for (int i = 0; i < 4; i++)
 			nums[i] = i + 1;
+		ArrayList<String> ships = readFromFile("shipPlacement");
+		for (String line : ships)
+			placeShip(line);
+	}
+	
+	public static ArrayList<String> readFromFile(String fileName)
+	{
+		BufferedReader in = null;
+		FileInputStream fis = null;
+		ArrayList<String> ret = new ArrayList<String>();
+
+		try
+		{
+			fis = new FileInputStream(fileName);
+			in = new BufferedReader(new InputStreamReader(fis));
+
+			String line = in.readLine();
+			while (line != null)
+			{
+				ret.add(line);
+				line = in.readLine();
+			}
+		}
+		catch (IOException ex){ System.out.println(ex.toString()); }
+
+		return ret;
 	}
 
 	public String printMaps()
@@ -72,9 +98,15 @@ public class Battleship
 		if (nums[type - 1] > 0)
 			for (int i = 0; i < type; i++)
 				if (dir == 'h')
+				{
 					personalMap[rc[0]][rc[1] + i] = '#';
+					enemyMap[rc[0]][rc[1] + i] = '#';
+				}
 				else
+				{
 					personalMap[rc[0] + i][rc[1]] = '#';
+					enemyMap[rc[0] + i][rc[1]] = '#';
+				}
 	}
 
 	/*
@@ -103,6 +135,8 @@ public class Battleship
 		map[rc[0]][rc[1]] = 'x';
 		return ret;
 	}
+	
+	
 
 	public boolean checkMap(char[][] map)
 	{
