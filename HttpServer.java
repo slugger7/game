@@ -51,7 +51,7 @@ public class HttpServer {
                 System.out.println("**********Start of Request*************");
                 while ((a = in.readLine()) != null)
                 {
-                    System.out.println(a);
+                    /*System.out.println(a);
                     if(a.contains("n=") && !set)
                     {
                         //get answer from http request;
@@ -76,10 +76,12 @@ public class HttpServer {
                        String scorestr = instance.ins_Score+" out of " + instance.ins_total;
                         email(rep,scorestr);
 
-                    }
+                    }*/
+
                     if (a.isEmpty()) {
                         break;
                     }
+                    System.out.println("A: " + a);
                 }
 
 
@@ -96,10 +98,9 @@ public class HttpServer {
                 out.write("Expires: Sat, 01 Jan 2000 00:59:59 GMT\r\n");
                 out.write("Last-modified: Fri, 09 Aug 1996 14:21:40 GMT\r\n");
                 out.write("\r\n");
-                out.write("<TITLE>Question Server</TITLE>");
-                out.write("<h1>Question Server</h1>");
-                out.write("<P>");
-                out.write("<fieldset>");
+                out.write("<TITLE>BattleShips</TITLE>");
+                out.write("<h1>Battleships</h1>");
+                /*out.write("<fieldset>");
 
                 if(x ==instance.Answ && instance.Answ!=0)
                 {
@@ -119,9 +120,14 @@ public class HttpServer {
                 {
                 instance.ins_total++;
                     System.out.println("Increasing total");
-                }
+                }*/
 
-                out.write(battle.printMaps());
+                ArrayList<String> map = battle.printMaps();
+                for (String line : map)
+                {
+                  System.out.println(line);
+                  out.write(line);
+                }
 
                 out.write("<form method=\"get\" action=\"\" >"+
                 " Answer:<input  name=\"n\" >"+

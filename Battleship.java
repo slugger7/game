@@ -21,35 +21,36 @@ public class Battleship
 			nums[i] = i + 1;
 	}
 
-	public String printMaps()
+	public ArrayList<String> printMaps()
 	{
-		String ret = "<h3>Your layout</h3>";
-		ret += "<table border='1'><tr><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>";
-		ret += "<th>F</th><th>G</th><th>H</th><th>I</th><th>J</th></tr>";
+		ArrayList<String> ret = new ArrayList<String>();
+		ret.add("<h3>Your layout</h3>");
+		ret.add("<table border=\"1\"><tr><th/><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>" +
+			"<th>F</th><th>G</th><th>H</th><th>I</th><th>J</th></tr>");
 		for (int i = 0; i < 10; i++)
 		{
-			ret += "<tr>";
+			ret.add("<tr>");
 			for (int j = 0; j < 10; j++)
 			{
-				ret += "<td>"+personalMap[i][j]+"</td>";
+				ret.add("<td>" + personalMap[i][j] + "</td>");
 			}
-			ret += "</tr>";
+			ret.add("</tr>");
 		}
-		ret += "</table>";
+		ret.add("</table>");
 		
-		ret += "<h3>Enemy layout</h3>";
-		ret += "<table border='1'><tr><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>";
-		ret += "<th>F</th><th>G</th><th>H</th><th>I</th><th>J</th></tr>";
+		ret.add("<h3>Enemy layout</h3>");
+		ret.add("<table border=\"1\"><tr><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>");
+		ret.add("<th>F</th><th>G</th><th>H</th><th>I</th><th>J</th></tr>");
 		for (int i = 0; i < 10; i++)
 		{
-			ret += "<tr>";
+			ret.add("<tr>");
 			for (int j = 0; j < 10; j++)
 			{
-				ret += "<td>"+enemyMap[i][j]+"</td>";
+				ret.add("<td>"+enemyMap[i][j]+"</td>");
 			}
-			ret += "</tr>";
+			ret.add("</tr>");
 		}
-		ret += "</table>";
+		ret.add("</table>");
 		return ret;
 	}
 
@@ -68,7 +69,7 @@ public class Battleship
 		input = input.substring(input.indexOf(',') + 1);
 		int[] rc = parseCoordinate(input);
 
-		System.out.println("Row:" + rc[0] + " Col: " + rc[1]);
+		//System.out.println("Row:" + rc[0] + " Col: " + rc[1]);
 		if (nums[type - 1] > 0)
 			for (int i = 0; i < type; i++)
 				if (dir == 'h')
