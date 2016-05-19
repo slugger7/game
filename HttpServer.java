@@ -141,13 +141,13 @@ public class HttpServer {
 		HttpServer host1 = new HttpServer(player1, player2);
 		HttpServer host2 = new HttpServer(player2, player1);
 		try {
-			//while (true) {
+			while (true) {
 				System.out.println("waiting for player 1");
 				new Threader(server.accept(), host1).start();
 				System.out.println("Player 1 connected, waiting for player 2");
 				new Threader(server.accept(), host2).start();
 				System.out.println("Player 2 connected");
-			//}
+			}
 		} finally {
 			server.close();
 		}
